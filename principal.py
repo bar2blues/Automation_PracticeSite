@@ -1,5 +1,7 @@
 from selenium import webdriver
-from Pages.pageindex import *
+from Pages.pageIndex import *
+from Pages.pageItemList import *
+from Pages.pageItem import *
 import unittest
 
 
@@ -14,11 +16,12 @@ class Items(unittest.TestCase):
 
     def test_view_item_page(self):
         page_index = Page_index(self.driver)
+        page_item_list = Page_item_list(self.driver)
+        page_item = Page_item(self.driver)
         page_index.search_item('dress')
-        self.driver.implicitly_wait(5)
-        self.driver.find_element_by_xpath('//*[@id="center_column"]/ul/li[1]/div/div[1]/div/a[1]/img').click()
-        title = self.driver.find_element_by_xpath('//h1[@itemprop="name"]').text
-        self.assertEqual(title, 'Printed Summer Dress', 'Text should be different')
+        page_item_list.click_first_item()
+        page_item.verify_text('Printed Summer Dress')
+
 
     def test_no_items(self):
         page_index = Page_index(self.driver)
